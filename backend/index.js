@@ -5,7 +5,8 @@ const app=express();
 const cors=require("cors")//this makes the backend can be used from any frontend
 app.use(express.json());//used to send post put requests via postman
 app.use(cors());
-app.post("/todo",async function(req,res){
+app.post("/todo",authMiddleware,
+    async function(req,res){
 const payload=req.body;
 const parsedpayload=createTodo.safeParse(payload);
 if(!parsedpayload.success){
@@ -28,7 +29,7 @@ res.json({
 
 })
 
-app.get("/todos",async function(req,res){
+app.get("/todos",authMiddleware ,async function(req,res){
     const todos=await todo.find({});//it is eventually hit the db so it takes time so await is used to wait and async keyword because it is using await function
     res.json({
         todos
@@ -36,7 +37,7 @@ app.get("/todos",async function(req,res){
 
 })
 
-app.put("/completed",async function(req,res){
+app.put("/completed",authMiddleware ,async function(req,res){
     const updatedpayload=req.body;
     const parsedpayload=updateTodo.safeParse(updatedpayload);
     if(!parsedpayload.success){

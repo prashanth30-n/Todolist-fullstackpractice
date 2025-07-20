@@ -25,7 +25,8 @@ export function CreateTodo() {
                 fetch("http://localhost:3000/todo", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + localStorage.getItem("token")
                     },
                     body: JSON.stringify({
                         title: title,
